@@ -1,0 +1,46 @@
+<div class="page-container">
+  <div class="content-wrapper">
+    <h2>Ride History</h2>
+   
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loader-container">
+      <div class="loader">
+        <div class="spinner"></div>
+        <p>Loading your ride history...</p>
+      </div>
+    </div>
+
+
+    <!-- Content -->
+    <div *ngIf="!loading && !error" class="table-container">
+      <table *ngIf="rideHistory.length > 0">
+        <thead>
+          <tr>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Driver</th>
+            <th>Fare</th>
+            <th>Status</th>
+            <th>Payment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ride of rideHistory">
+            <td data-label="Origin">{{ ride.origin }}</td>
+            <td data-label="Destination">{{ ride.destination }}</td>
+            <td data-label="Driver">{{ ride.driverName }}</td>
+            <td data-label="Fare">{{ ride.amount }}</td>
+            <td data-label="Status" [class]="'status-' + ride.status?.toLowerCase()">{{ ride.status }}</td>
+            <td data-label="Payment">{{ ride.method }}</td>
+          </tr>
+        </tbody>
+      </table>
+     
+      <div *ngIf="rideHistory.length === 0" class="empty-state">
+        <div class="icon">🚗</div>
+        <h3>No Rides Yet</h3>
+        <p>Your ride history will appear here once you start booking rides.</p>
+      </div>
+    </div>
+  </div>
+</div>

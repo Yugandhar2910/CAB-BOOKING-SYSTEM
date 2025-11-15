@@ -1,0 +1,73 @@
+<div class="split-screen">
+  <div class="left-panel">
+    <img src="/Images/Driverimg.png" alt="Login Background" />
+  </div>
+
+  <div class="right-panel">
+    <div class="login-container">
+      <h2 class="login-title">Driver Login</h2>
+
+      <form class="login-form" (ngSubmit)="onLogin()" #loginForm="ngForm">
+        <!-- Error Message Display -->
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email address"
+          required
+          email
+          [(ngModel)]="email"
+          #emailInput="ngModel"
+        />
+        <div *ngIf="emailInput.invalid && emailInput.touched" class="field-error">
+          <small *ngIf="emailInput.errors?.['required']">Email is required</small>
+          <small *ngIf="emailInput.errors?.['email']">Please enter a valid email</small>
+        </div>
+
+        <label for="password">Password</label>
+        <div class="password-container">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+            minlength="6"
+            [(ngModel)]="password"
+            #passwordInput="ngModel"
+          />
+          <button 
+            type="button" 
+            class="password-toggle" 
+            (click)="togglePasswordVisibility()"
+            title="Toggle password visibility">
+            {{ showPassword ? '🙈' : '👁️' }}
+          </button>
+        </div>
+        <div *ngIf="passwordInput.invalid && passwordInput.touched" class="field-error">
+          <small *ngIf="passwordInput.errors?.['required']">Password is required</small>
+          <small *ngIf="passwordInput.errors?.['minlength']">Password must be at least 6 characters</small>
+        </div>
+
+        <button 
+          type="submit" 
+          class="btn login-btn" 
+          [disabled]="loginForm.invalid || loading">
+          <span *ngIf="loading">Logging in...</span>
+          <span *ngIf="!loading">Login</span>
+        </button>
+
+        <div class="login-footer">
+          <a (click)="onClickForgotPassword()">Forgot Password</a>
+          <span> | </span>
+          <a (click)="onClickRegister()">Create New Account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

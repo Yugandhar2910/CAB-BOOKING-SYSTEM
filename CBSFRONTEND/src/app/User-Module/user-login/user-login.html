@@ -1,0 +1,41 @@
+<div class="split-screen">
+  <div class="left-panel">
+    <img src="/Images/img1.png" alt="Login Background" />
+  </div>
+
+  <div class="right-panel">
+    <div class="login-container">
+      <h2 class="login-title">User Login</h2>
+
+      <form class="login-form" (ngSubmit)="onLogin()" #loginForm="ngForm">
+        <label >Email</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Enter your registered email"
+          required
+          pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+          [(ngModel)]="userLoginObj.email"  />
+
+        <label >Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+          [(ngModel)]="userLoginObj.password"
+        />
+
+        <button type="submit" class="btn login-btn">Login</button>
+
+        <div class="login-footer">
+          <a (click)="onClickForgotPassword()">Forgot Password</a>
+          <span> | </span>
+          <a (click)="onClickRegister()">Create New Account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+.success-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.stars {
+  font-size: 2rem;
+  color: gray;
+  cursor: pointer;
+}
+
+.stars .selected {
+  color: gold;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.thank-you {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: green;
+}
