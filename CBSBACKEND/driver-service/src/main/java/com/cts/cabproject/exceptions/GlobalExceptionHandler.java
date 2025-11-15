@@ -1,0 +1,26 @@
+package com.cts.cabproject.exceptions;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Map;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Map<String, String>> handleAuthenticationException(AuthenticationException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", ex.getMessage()));
+    }
+
+    @ExceptionHandler(ForgotPasswordVerificationException.class)
+    public ResponseEntity<Map<String, String>> handleForgotPasswordVerificationException(ForgotPasswordVerificationException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("message", ex.getMessage()));
+    }
+
+
+}
+

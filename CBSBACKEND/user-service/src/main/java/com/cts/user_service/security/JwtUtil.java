@@ -1,0 +1,51 @@
+package com.cts.user_service.security;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.util.*;
+@Component
+public class JwtUtil {
+    @Value("${key}")
+    private String secretKey;
+    @Value("${expiry}")
+    private long expiry;
+    private SecretKey key(){
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
+    }
+    public String generateJwtToken(Authentication authentication){
+        String name=authentication.getName();
+        List<String> role=authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        Date currdate=new Date();
+        Date expiration=new Date(currdate.getTime()+expiry);
+        return Jwts.builder()
+                .setSubject(name)
+                .claim("roles",role)
+                .setIssuedAt(currdate)
+                .setExpiration(expiration)
+                .signWith(key())
+                .compact();
+    }
+    public Claims extractClaims(String token){
+        return Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+    public String extractUserName(String token){
+        return extractClaims(token).getSubject();
+    }
+    public List<String> extractRoles(String token){
+        return extractClaims(token).get("roles",List.class);
+    }
+
+
+}
